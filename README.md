@@ -1,8 +1,8 @@
-<<<<<<< HEAD
-
-#Algo Group 4
+# Algo Group 4
 
 Hello po maam sirs, ito po major project po namin. Ang ginamit ko po ay Ubuntu kya po pag di po sya gumana sa side nyo po, ung pong Ubuntu po publema jan.
+
+=======
 
 # Stock Market Prediction Web Application
 
@@ -70,7 +70,7 @@ The application will be available at `http://localhost:5000`
 - Responsive design
 
 =======
-# StockTrendAI
+
 
 
 
