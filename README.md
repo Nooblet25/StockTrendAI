@@ -1,9 +1,4 @@
-# Algo Group 4
-
-Hello po maam sirs, ito po major project po namin. Ang ginamit ko po ay Ubuntu kya po pag di po sya gumana sa side nyo po, ung pong Ubuntu po publema jan.
-
-
-
+<<<<<<< HEAD
 # Stock Market Prediction Web Application
 
 A web application that provides stock market predictions using various machine learning models including LSTM, Random Forest, XGBoost, and ARIMA.
@@ -69,6 +64,11 @@ The application will be available at `http://localhost:5000`
 - Error handling and retry mechanisms
 - Responsive design
 
+## License
 
-
-
+MIT License 
+=======
+# StockTrendAI
+Algo Group 4
+Hello po maam sirs, ito po major project po namin. Ang ginamit ko po ay Ubuntu kya po pag di po sya gumana sa side nyo po, ung pong Ubuntu po publema jan.
+>>>>>>> c9f643c72ce7bf140f2a7ae9ce0bfd0c0f089702
