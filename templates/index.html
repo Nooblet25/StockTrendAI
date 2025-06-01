@@ -515,29 +515,30 @@
       }, 800);
     }
 
-    const ctx = document.getElementById('stockChart').getContext('2d');
-    const stockChart = new Chart(ctx, {
+    const stockCtx = document.getElementById('stockChart').getContext('2d');
+    const stockChart = new Chart(stockCtx, {
       type: 'line',
       data: {
         labels: [],
         datasets: [{
           label: 'Historical Price',
           data: [],
-          borderColor: 'rgba(0, 123, 255, 1)',
-          backgroundColor: 'rgba(0, 123, 255, 0.1)',
-          tension: 0.4,
-          fill: true,
-          borderWidth: 2
-        },
-        {
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 2,
+          fill: false,
+          tension: 0.1,
+          pointRadius: 0,
+          order: 1
+        }, {
           label: 'Predicted Price',
           data: [],
           borderColor: 'rgba(255, 99, 132, 1)',
-          backgroundColor: 'rgba(255, 99, 132, 0.1)',
-          tension: 0.4,
-          fill: true,
           borderWidth: 2,
-          borderDash: [5, 5]
+          borderDash: [5, 5],
+          fill: false,
+          tension: 0.1,
+          pointRadius: 0,
+          order: 2
         }]
       },
       options: {
@@ -549,7 +550,6 @@
         },
         plugins: {
           legend: { 
-            display: true,
             labels: { 
               color: '#ccc',
               font: {
@@ -586,7 +586,7 @@
           }
         },
         scales: {
-          x: { 
+          x: {
             ticks: { 
               color: '#ccc',
               font: {
@@ -595,7 +595,7 @@
             },
             grid: { color: '#333' }
           },
-          y: { 
+          y: {
             ticks: { 
               color: '#ccc',
               font: {
@@ -616,7 +616,8 @@
         datasets: [{
           label: 'Volume',
           data: [],
-          backgroundColor: []
+          backgroundColor: [],
+          order: 1
         }]
       },
       options: {
@@ -777,6 +778,12 @@
     }
 
     function displayPrediction(data) {
+      if (!data || !data.dates || !data.predictions || !data.historical_prices) {
+        console.error('Invalid data format received:', data);
+        alert('Invalid data format received from server');
+        return;
+      }
+
       // Clear previous data
       stockChart.data.labels = [];
       stockChart.data.datasets[0].data = [];
@@ -785,144 +792,71 @@
       volumeChart.data.datasets[0].data = [];
       volumeChart.data.backgroundColor = [];
 
-      // Add historical data points
-      const historicalDates = data.dates.slice(0, -data.predictions.length);
-      const historicalPrices = data.historical_prices || [];
-      const historicalVolumes = data.volumes || [];
+      try {
+        // Add historical data points
+        const historicalDates = data.dates.slice(0, -data.predictions.length) || [];
+        const historicalPrices = data.historical_prices || [];
+        const historicalVolumes = data.volumes || [];
 
-      // Add prediction data points
-      const predictionDates = data.dates.slice(-data.predictions.length);
-      const predictions = data.predictions;
+        // Add prediction data points
+        const predictionDates = data.dates.slice(-data.predictions.length) || [];
+        const predictions = data.predictions || [];
 
-      // Calculate predicted volumes based on price movement
-      const predictedVolumes = predictions.map((price, i) => {
-        if (i === 0) {
-          const priceChange = price - historicalPrices[historicalPrices.length - 1];
-          return Math.max(0, historicalVolumes[historicalVolumes.length - 1] * (1 + priceChange / price));
-        } else {
-          const priceChange = price - predictions[i - 1];
-          return Math.max(0, historicalVolumes[historicalVolumes.length - 1] * (1 + priceChange / price));
-        }
-      });
-
-      // Update stock price chart
-      stockChart.data.labels = [...historicalDates, ...predictionDates];
-      stockChart.data.datasets[0].data = historicalPrices;
-      stockChart.data.datasets[1].data = Array(historicalDates.length).fill(null).concat(predictions);
-
-      // Update volume chart with both historical and predicted volumes
-      volumeChart.data.labels = [...historicalDates, ...predictionDates];
-      
-      // Create volume datasets for historical and predicted
-      volumeChart.data.datasets = [{
-        label: 'Historical Volume',
-        data: [...historicalVolumes, ...Array(predictionDates.length).fill(null)],
-        backgroundColor: historicalVolumes.map((v, i) => 
-          i > 0 && historicalPrices[i] > historicalPrices[i-1] 
-            ? 'rgba(40, 167, 69, 0.6)' // Green for price increase
-            : 'rgba(220, 53, 69, 0.6)' // Red for price decrease
-        ),
-        order: 1
-      }, {
-        label: 'Predicted Volume',
-        data: [...Array(historicalDates.length).fill(null), ...predictedVolumes],
-        backgroundColor: predictedVolumes.map((v, i) => {
-          const comparePrice = i === 0 ? historicalPrices[historicalPrices.length - 1] : predictions[i - 1];
-          return predictions[i] > comparePrice 
-            ? 'rgba(40, 167, 69, 0.3)' // Lighter green for predicted increase
-            : 'rgba(220, 53, 69, 0.3)'; // Lighter red for predicted decrease
-        }),
-        borderWidth: 1,
-        borderColor: 'rgba(255, 255, 255, 0.2)',
-        order: 2
-      }];
-
-      // Update chart options for better volume display
-      volumeChart.options = {
-        responsive: true,
-        maintainAspectRatio: false,
-        interaction: {
-          intersect: false,
-          mode: 'index'
-        },
-        plugins: {
-          legend: { 
-            labels: { 
-              color: '#ccc',
-              font: {
-                size: 14
-              }
-            }
-          },
-          tooltip: {
-            mode: 'index',
-            intersect: false,
-            titleFont: {
-              size: 16
-            },
-            bodyFont: {
-              size: 14
-            },
-            callbacks: {
-              label: function(context) {
-                let label = context.dataset.label || '';
-                if (label) {
-                  label += ': ';
-                }
-                if (context.parsed.y !== null) {
-                  label += new Intl.NumberFormat().format(context.parsed.y);
-                }
-                return label;
-              }
-            }
+        // Calculate predicted volumes based on price movement
+        const predictedVolumes = predictions.map((price, i) => {
+          if (!historicalVolumes.length) return 0;
+          
+          if (i === 0) {
+            const priceChange = price - (historicalPrices[historicalPrices.length - 1] || 0);
+            return Math.max(0, (historicalVolumes[historicalVolumes.length - 1] || 0) * (1 + priceChange / (price || 1)));
+          } else {
+            const priceChange = price - (predictions[i - 1] || 0);
+            return Math.max(0, (historicalVolumes[historicalVolumes.length - 1] || 0) * (1 + priceChange / (price || 1)));
           }
-        },
-        scales: {
-          x: {
-            stacked: true,
-            ticks: { 
-              color: '#ccc',
-              font: {
-                size: 12
-              }
-            },
-            grid: { color: '#333' }
-          },
-          y: {
-            stacked: true,
-            beginAtZero: true,
-            ticks: { 
-              color: '#ccc',
-              font: {
-                size: 12
-              },
-              callback: function(value) {
-                return new Intl.NumberFormat('en-US', {
-                  notation: 'compact',
-                  compactDisplay: 'short'
-                }).format(value);
-              }
-            },
-            grid: { color: '#333' },
-            title: {
-              display: true,
-              text: 'Volume',
-              color: '#ccc',
-              font: {
-                size: 14,
-                weight: 'bold'
-              }
-            }
-          }
-        }
-      };
+        });
 
-      // Update both charts
-      stockChart.update();
-      volumeChart.update();
+        // Update stock price chart
+        stockChart.data.labels = [...historicalDates, ...predictionDates];
+        stockChart.data.datasets[0].data = historicalPrices;
+        stockChart.data.datasets[1].data = Array(historicalDates.length).fill(null).concat(predictions);
 
-      // Update prediction summary
-      updatePredictionSummary(data);
+        // Update volume chart with both historical and predicted volumes
+        volumeChart.data.labels = [...historicalDates, ...predictionDates];
+        
+        // Create volume datasets for historical and predicted
+        volumeChart.data.datasets = [{
+          label: 'Historical Volume',
+          data: [...historicalVolumes, ...Array(predictionDates.length).fill(null)],
+          backgroundColor: historicalVolumes.map((v, i) => 
+            i > 0 && historicalPrices[i] > historicalPrices[i-1] 
+              ? 'rgba(40, 167, 69, 0.6)' // Green for price increase
+              : 'rgba(220, 53, 69, 0.6)' // Red for price decrease
+          ),
+          order: 1
+        }, {
+          label: 'Predicted Volume',
+          data: [...Array(historicalDates.length).fill(null), ...predictedVolumes],
+          backgroundColor: predictedVolumes.map((v, i) => {
+            const comparePrice = i === 0 ? (historicalPrices[historicalPrices.length - 1] || 0) : (predictions[i - 1] || 0);
+            return (predictions[i] || 0) > comparePrice 
+              ? 'rgba(40, 167, 69, 0.3)' // Lighter green for predicted increase
+              : 'rgba(220, 53, 69, 0.3)'; // Lighter red for predicted decrease
+          }),
+          borderWidth: 1,
+          borderColor: 'rgba(255, 255, 255, 0.2)',
+          order: 2
+        }];
+
+        // Update both charts
+        stockChart.update();
+        volumeChart.update();
+
+        // Update prediction summary
+        updatePredictionSummary(data);
+      } catch (error) {
+        console.error('Error displaying prediction:', error);
+        alert('Error displaying prediction data');
+      }
     }
 
     function updatePredictionSummary(data) {
