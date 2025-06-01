@@ -1316,6 +1316,21 @@
   // Enable Bootstrap tooltips
   const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
   tooltipTriggerList.forEach(t => new bootstrap.Tooltip(t));
+
+  // Add event listener for modal hidden event
+  const predictionModal = document.getElementById('predictionModal');
+  predictionModal.addEventListener('hidden.bs.modal', function () {
+    // Remove modal backdrop if it exists
+    const backdrop = document.querySelector('.modal-backdrop');
+    if (backdrop) {
+      backdrop.remove();
+    }
+    // Remove modal-open class from body
+    document.body.classList.remove('modal-open');
+    // Remove inline styles from body
+    document.body.style.removeProperty('overflow');
+    document.body.style.removeProperty('padding-right');
+  });
 </script>
 
 </body>
