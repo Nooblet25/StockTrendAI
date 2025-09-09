@@ -1,34 +1,81 @@
-## General overview
+#Geoup 4
 
-With the rising amount of tech users, there is a gap of knowledge that the probable majority would not know about technology and the internet. There is no longer a vast amount of infomercials that remind people how to remember internet safety. There also is the notion that even if there is, it could be not up to date or lacking simply because of the rapid evolution of the internet especially now with artificial intelligence. A great way to reintroduce this conversation is by creating an interactive way of informing people of internet safety, in this case, a browser visual novel. This aims to fill in the huge disparity that is wedged in between the rise of consumers and the lack of caution they entail. This would benefit the users as they would be reminded to use the internet with reinforced caution.
+# Stock Market Analyzer
 
+A web application for analyzing and predicting stock market trends using historical data and statistical analysis.
 
-## Objectives
-1. Create an interactive way of reminding people of internet safety and the costs of using the internet.
-2. Provide abridged and digestible bits of information for users.
-3. Create a platform for artists to advocate for their qualms of the evolution of the internet and technology.
+## Features
 
+- Real-time stock data fetching using Yahoo Finance API
+- Stock price prediction using moving average model
+- Interactive charts for visualizing historical data and predictions
+- Volume prediction based on historical volatility
+- Modern, responsive UI with dark mode
+- Support for multiple prediction horizons (up to 5 years)
 
-## Scope of Work
-In Scope: 
-- Creating assets, characters, storylines, dialogues, and interactions.
-- Researching of the included topics in the storylines.
-- Creating the website (one landing page, 4 individual storyline pages).
+## Installation
 
-## Out of Scope: 
-- Multiple endings on each character and wide story branches.
-- Community engagement.
-- Extra content in the end.
-- Complete backstory of each character.
-- Player background.
-- Historical accuracy within information or character influence.
+1. Clone the repository:
+```bash
+git clone https://github.com/Nooblet25/StockTrendAI.git
+cd StockTrendAI
+```
 
+2. Create and activate a virtual environment:
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+```
 
+3. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
 
+## Usage
 
+1. Start the Flask server:
+```bash
+python app.py
+```
 
-## Team Members
-- Sophia Anne Alcordo - Coder, Designer
-- Kristina Cassandra Fortus - Coder, Designer
-- Vincent Dinawanao - Coder, Designer, Debugger 
-- Febby Rose Quesada - Coder, Designer, Project Manager
+2. Open your web browser and navigate to:
+```
+http://localhost:5000
+```
+
+3. Enter a stock symbol and select prediction parameters:
+   - Start Year: Historical data start point (2 years before end year)
+   - End Year: Target year for prediction
+   - Days to Forecast: Number of days to predict into the future
+   - Model: Currently using Moving Average model for all options
+
+## Troubleshooting
+
+1. If you get a "No data available" error:
+   - Check if the stock symbol is correct
+   - Try a different date range
+   - Ensure you have internet connectivity
+
+2. If predictions seem unrealistic:
+   - The current model uses a simple moving average approach
+   - Results are for educational purposes only
+   - Consider shorter prediction horizons for better accuracy
+
+3. If the application is slow:
+   - The data fetching has a 10-second timeout
+   - Try reducing the date range or prediction horizon
+   - Check your internet connection speed
+
+## Technologies Used
+
+- Flask (Backend)
+- yfinance (Stock Data API)
+- Chart.js (Data Visualization)
+- Bootstrap 5 (UI Framework)
+- NumPy & Pandas (Data Processing)
+
+## Disclaimer
+
+This application is for educational purposes only. The predictions are based on historical data and simple statistical models. Do not use them for actual investment decisions.
+
