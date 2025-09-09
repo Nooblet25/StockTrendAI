@@ -79,3 +79,10 @@ http://localhost:5000
 
 This application is for educational purposes only. The predictions are based on historical data and simple statistical models. Do not use them for actual investment decisions.
 
+| Phase | Start Date | End Date | Description | 
+ | ------------- | ------------- | ------------- | ------------- |
+| Planning | 2025-07-15 | 2025-11 | Content Cell |
+| Content Cell | Content Cell | Content Cell | 
+| Content Cell | Content Cell | Content Cell | 
+
+
