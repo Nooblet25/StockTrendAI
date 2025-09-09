@@ -1,72 +1,34 @@
-# HUHUHU BAKIT BIGLAAN ITO DI GUMANA 
+## General overview
+
+With the rising amount of tech users, there is a gap of knowledge that the probable majority would not know about technology and the internet. There is no longer a vast amount of infomercials that remind people how to remember internet safety. There also is the notion that even if there is, it could be not up to date or lacking simply because of the rapid evolution of the internet especially now with artificial intelligence. A great way to reintroduce this conversation is by creating an interactive way of informing people of internet safety, in this case, a browser visual novel. This aims to fill in the huge disparity that is wedged in between the rise of consumers and the lack of caution they entail. This would benefit the users as they would be reminded to use the internet with reinforced caution.
 
 
-# Stock Market Prediction Web Application
+## Objectives
+1. Create an interactive way of reminding people of internet safety and the costs of using the internet.
+2. Provide abridged and digestible bits of information for users.
+3. Create a platform for artists to advocate for their qualms of the evolution of the internet and technology.
 
-A web application that provides stock market predictions using various machine learning models including LSTM, Random Forest, XGBoost, and ARIMA.
 
-## Features
+## Scope of Work
+In Scope: 
+- Creating assets, characters, storylines, dialogues, and interactions.
+- Researching of the included topics in the storylines.
+- Creating the website (one landing page, 4 individual storyline pages).
 
-- Real-time stock data fetching using yfinance
-- Multiple prediction models:
-  - LSTM (Long Short-Term Memory)
-  - Random Forest
-  - XGBoost
-  - ARIMA (Autoregressive Integrated Moving Average)
-- Interactive charts with zooming capabilities
-- Technical indicators calculation
-- Robust error handling and network retries
-- Modern, responsive UI with dark theme
+## Out of Scope: 
+- Multiple endings on each character and wide story branches.
+- Community engagement.
+- Extra content in the end.
+- Complete backstory of each character.
+- Player background.
+- Historical accuracy within information or character influence.
 
-## Requirements
 
-- Python 3.8+
-- Flask
-- TensorFlow
-- scikit-learn
-- XGBoost
-- yfinance
-- pandas
-- numpy
-- statsmodels
 
-## Installation
 
-1. Clone the repository:
-```bash
-git clone [repository-url]
-cd stock-prediction-app
-```
 
-2. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
-
-3. Run the application:
-```bash
-python app.py
-```
-
-The application will be available at `http://localhost:5000`
-
-## Usage
-
-1. Enter a stock symbol (e.g., AAPL, GOOGL)
-2. Select a prediction model
-3. Choose the date range and prediction horizon
-4. View the predictions and historical data on interactive charts
-
-## Features
-
-- Real-time stock data fetching
-- Multiple prediction models
-- Interactive charts with zoom functionality
-- Technical indicators
-- Error handling and retry mechanisms
-- Responsive design
-
-## License
-
-MIT License 
-
+## Team Members
+- Sophia Anne Alcordo - Coder, Designer
+- Kristina Cassandra Fortus - Coder, Designer
+- Vincent Dinawanao - Coder, Designer, Debugger 
+- Febby Rose Quesada - Coder, Designer, Project Manager
